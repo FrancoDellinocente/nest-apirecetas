@@ -14,8 +14,21 @@ export class Receta {
   @Prop({ type: Types.ObjectId, ref: 'Usuario', required: true })
   usuarioid: Types.ObjectId;
 
-  @Prop([{ type: Types.ObjectId, ref: 'Ingrediente' }])
-  ingredientes: Types.ObjectId[];
+  @Prop()
+  imgReceta: string;
+
+  @Prop([
+    {
+      ingrediente: { type: Types.ObjectId, ref: 'Ingrediente', required: true },
+      cantidad: { type: Number, required: true },
+      unidad: { type: String, required: true },
+    },
+  ])
+  ingredientes: {
+    ingrediente: Types.ObjectId;
+    cantidad: number;
+    unidad: string;
+  }[];
 }
 
 export const RecetaSchema = SchemaFactory.createForClass(Receta);

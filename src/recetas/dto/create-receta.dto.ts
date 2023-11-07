@@ -3,10 +3,26 @@ import {
   IsArray,
   IsMongoId,
   IsNotEmpty,
+  IsNumber,
   IsString,
   Length,
+  ValidateNested,
 } from 'class-validator';
 import { Types } from 'mongoose';
+
+class IngredienteDto {
+  @IsNotEmpty()
+  @IsString()
+  ingrediente: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  cantidad: number;
+
+  @IsNotEmpty()
+  @IsString()
+  unidad: string;
+}
 
 export class CreateRecetaDto {
   @IsString()
@@ -23,8 +39,12 @@ export class CreateRecetaDto {
   @IsNotEmpty()
   usuarioid: Types.ObjectId;
 
+  @IsString()
+  imgPerfil: string;
+
   @IsArray()
-  @ArrayMinSize(1)
   @IsNotEmpty()
-  ingredientes: Types.ObjectId[];
+  @ArrayMinSize(1)
+  @ValidateNested({ each: true })
+  ingredientes: IngredienteDto[];
 }
