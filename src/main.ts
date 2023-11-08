@@ -12,6 +12,7 @@ async function bootstrap() {
   console.log('API Documentationssss' + process.env.DB_URI); // Para verificar que se lee correctamente
 
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('API Documentation')
     .setDescription('description')
     .setVersion('1.0')
