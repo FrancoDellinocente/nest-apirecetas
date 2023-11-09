@@ -1,3 +1,4 @@
+import requestWithUser from 'src/interface/interface';
 import {
   Controller,
   Get,
@@ -6,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
@@ -31,13 +33,21 @@ export class UsuarioController {
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
-    return this.usuarioService.update(id, updateUsuarioDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateUsuarioDto: UpdateUsuarioDto,
+    @Req() req: Request & requestWithUser,
+  ) {
+    return this.usuarioService.update(
+      id,
+      updateUsuarioDto,
+      req as Request & requestWithUser,
+    );
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usuarioService.remove(id);
+  remove(@Param('id') id: string, @Req() req: Request & requestWithUser) {
+    return this.usuarioService.remove(id, req as Request & requestWithUser);
   }
 }

@@ -6,8 +6,6 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  console.log('API Documentations ' + process.env.JWT_KEY); // Para verificar que se lee correctamente
-
   const config = new DocumentBuilder()
     .addBearerAuth()
     .setTitle('API Documentation')

@@ -19,6 +19,8 @@ export class Usuario {
 
   @Prop()
   imgPerfil: string;
+
+  _id: any;
 }
 
 export const UsuarioSchema = SchemaFactory.createForClass(Usuario);
