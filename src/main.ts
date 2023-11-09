@@ -1,15 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as dotenv from 'dotenv';
 import { ValidationPipe } from '@nestjs/common';
-
-dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  console.log('API Documentationssss' + process.env.DB_URI); // Para verificar que se lee correctamente
+  console.log('API Documentations ' + process.env.JWT_KEY); // Para verificar que se lee correctamente
 
   const config = new DocumentBuilder()
     .addBearerAuth()

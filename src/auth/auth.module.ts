@@ -5,9 +5,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Usuario, UsuarioSchema } from 'src/usuario/schema/usuario.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forFeature([
       {
         name: Usuario.name,
@@ -16,7 +18,7 @@ import { JwtStrategy } from './jwt.strategy';
     ]),
     JwtModule.register({
       global: true,
-      secret: 'process.env.JWT_KEY',
+      secret: process.env.JWT_KEY,
       signOptions: { expiresIn: '4h' },
     }),
   ],
