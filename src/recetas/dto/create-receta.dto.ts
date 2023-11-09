@@ -1,14 +1,12 @@
 import {
   ArrayMinSize,
   IsArray,
-  IsMongoId,
   IsNotEmpty,
   IsNumber,
   IsString,
   Length,
   ValidateNested,
 } from 'class-validator';
-import { Types } from 'mongoose';
 
 class IngredienteDto {
   @IsNotEmpty()
@@ -35,12 +33,8 @@ export class CreateRecetaDto {
   @Length(1, 4000)
   descripcion: string;
 
-  @IsMongoId()
-  @IsNotEmpty()
-  usuarioid: Types.ObjectId;
-
   @IsString()
-  imgPerfil: string;
+  imgReceta: string;
 
   @IsArray()
   @IsNotEmpty()
