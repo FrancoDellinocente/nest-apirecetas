@@ -1,6 +1,8 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   ArrayMinSize,
   IsArray,
+  IsMongoId,
   IsNotEmpty,
   IsNumber,
   IsString,
@@ -10,7 +12,7 @@ import {
 
 class IngredienteDto {
   @IsNotEmpty()
-  @IsString()
+  @IsMongoId()
   ingrediente: string;
 
   @IsNotEmpty()
@@ -23,6 +25,7 @@ class IngredienteDto {
 }
 
 export class CreateRecetaDto {
+  @ApiProperty({ title: 'nombre', minLength: 1, maxLength: 800 })
   @IsString()
   @IsNotEmpty()
   @Length(1, 800)

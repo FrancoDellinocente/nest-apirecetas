@@ -20,7 +20,6 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.usuarioService.findAll();

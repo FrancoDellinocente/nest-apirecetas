@@ -7,7 +7,7 @@ import { CreateRecetaDto } from './dto/create-receta.dto';
 import { UpdateRecetaDto } from './dto/update-receta.dto';
 import { Receta, RecetaDocument } from './schema/recetas.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import requestWithUser from 'src/interface/interface';
 
 @Injectable()
@@ -18,9 +18,10 @@ export class RecetasService {
 
   async create(
     createRecetaDto: CreateRecetaDto,
-    req: Request & requestWithUser,
+    usuarioid: Types.ObjectId,
+    // req: Request & requestWithUser,
   ): Promise<Receta> {
-    const usuarioid = req.user.userId;
+    // const usuarioid: string = req.user.userId;
 
     const recetaCreado = await this.recetaModule.create({
       ...createRecetaDto,

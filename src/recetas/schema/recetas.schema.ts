@@ -1,10 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 import { Document, Types } from 'mongoose';
 
 export type RecetaDocument = Receta & Document;
 
 @Schema()
 export class Receta {
+  @ApiProperty({ title: 'nombre' })
   @Prop({ required: true, unique: true })
   nombre: string;
 

@@ -29,9 +29,11 @@ export class RecetasController {
     @Body() createRecetaDto: CreateRecetaDto,
     @Req() req: Request & requestWithUser,
   ) {
+    const usuarioid = req.user.userId;
     return this.recetasService.create(
       createRecetaDto,
-      req as Request & requestWithUser,
+      //
+      usuarioid,
     );
   }
 

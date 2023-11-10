@@ -1,13 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 import { Document } from 'mongoose';
 
 export type UsuarioDocument = Usuario & Document;
 
 @Schema()
-export class Usuario {
+export class Usuario extends Document {
   @Prop({ required: true })
+  @ApiProperty({ title: 'nombre' })
   nombre: string;
 
+  @ApiProperty()
   @Prop({ required: true })
   apellido: string;
 
@@ -19,8 +22,6 @@ export class Usuario {
 
   @Prop()
   imgPerfil: string;
-
-  _id: any;
 }
 
 export const UsuarioSchema = SchemaFactory.createForClass(Usuario);
