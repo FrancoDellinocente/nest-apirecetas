@@ -9,11 +9,14 @@ import { Receta, RecetaDocument } from './schema/recetas.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import requestWithUser from 'src/interface/interface';
+import { RecetaMinInfo } from './entities/receta.entity';
+import { Usuario, UsuarioDocument } from 'src/usuario/schema/usuario.schema';
 
 @Injectable()
 export class RecetasService {
   constructor(
     @InjectModel(Receta.name) private recetaModule: Model<RecetaDocument>,
+    @InjectModel(Usuario.name) private usuarioModule: Model<UsuarioDocument>,
   ) {}
 
   async create(
@@ -36,9 +39,55 @@ export class RecetasService {
     return listRecetas;
   }
 
+  async findAllMinInfo(): Promise<RecetaMinInfo[]> {
+    const recetas = await this.recetaModule.find();
+    const recetasMinInfo: RecetaMinInfo[] = [];
+
+    for (const receta of recetas) {
+      const usuario = await this.usuarioModule.findById(receta.usuarioid);
+
+      if (!usuario) {
+        throw new NotFoundException('Usuario no encontrado');
+      }
+
+      const recetaMin: RecetaMinInfo = {
+        recetaId: receta._id,
+        recetaNombre: receta.nombre,
+        imgReceta: receta.imgReceta,
+        usuarioid: usuario._id,
+        usuarioNombre: usuario.nombre,
+        usuarioImg: usuario.imgPerfil,
+      };
+
+      recetasMinInfo.push(recetaMin);
+    }
+
+    return recetasMinInfo;
+  }
+
   async findOne(id: string): Promise<Receta> {
     const recetaId = await this.recetaModule.findById(id);
     return recetaId;
+  }
+
+  async findOneMinInfo(id: string): Promise<RecetaMinInfo> {
+    const receta = await this.recetaModule.findById(id);
+    const usuario = await this.usuarioModule.findById(receta.usuarioid);
+
+    if (!receta || !usuario) {
+      throw new NotFoundException('Receta o usuario no encontrado');
+    }
+
+    const recetaMin: RecetaMinInfo = {
+      recetaId: receta._id,
+      recetaNombre: receta.nombre,
+      imgReceta: receta.imgReceta,
+      usuarioid: usuario._id,
+      usuarioNombre: usuario.nombre,
+      usuarioImg: usuario.imgPerfil,
+    };
+
+    return recetaMin;
   }
 
   async update(

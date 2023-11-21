@@ -16,6 +16,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Request } from 'express';
 import requestWithUser from 'src/interface/interface';
+import { RecetaMinInfo } from './entities/receta.entity';
 
 @ApiBearerAuth()
 @ApiTags('recetas')
@@ -30,11 +31,7 @@ export class RecetasController {
     @Req() req: Request & requestWithUser,
   ) {
     const usuarioid = req.user.userId;
-    return this.recetasService.create(
-      createRecetaDto,
-      //
-      usuarioid,
-    );
+    return this.recetasService.create(createRecetaDto, usuarioid);
   }
 
   @Get()
@@ -42,9 +39,19 @@ export class RecetasController {
     return this.recetasService.findAll();
   }
 
-  @Get(':id')
+  @Get('minInfo')
+  findAllMinInfo(): Promise<RecetaMinInfo[]> {
+    return this.recetasService.findAllMinInfo();
+  }
+
+  @Get('detail/:id')
   findOne(@Param('id') id: string) {
     return this.recetasService.findOne(id);
+  }
+
+  @Get(':id')
+  findOneMinInfo(@Param('id') id: string) {
+    return this.recetasService.findOneMinInfo(id);
   }
 
   @UseGuards(JwtAuthGuard)
